@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BKportfolio — Video Editor Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16181A;
+    --paper:#F1ECE1;
+    --gold:#D4A017;
+    --teal:#23514E;
+    --teal-light:#3A716C;
+    --line: rgba(241,236,225,0.14);
+    --line-dark: rgba(22,24,26,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--ink);
+    color:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Bebas Neue',sans-serif;
+    letter-spacing:0.5px;
+    line-height:0.95;
+    font-weight:400;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  section{padding:120px 0;}
+  @media(max-width:768px){section{padding:72px 0;} .wrap{padding:0 20px;}}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 32px;
+    background:linear-gradient(to bottom, rgba(22,24,26,0.9), transparent);
+  }
+  .brand{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
+  .brand span{color:var(--gold);}
+  .nav-links{display:flex;gap:32px;font-size:14px;font-weight:500;}
+  .nav-links a{opacity:0.8;transition:opacity .2s;}
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{
+    border:1px solid var(--paper);padding:9px 18px;border-radius:2px;font-size:13px;font-weight:600;
+  }
+  @media(max-width:768px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+    position:relative;overflow:hidden;padding-top:100px;
+  }
+  .filmstrip{
+    position:absolute;left:0;right:0;height:28px;background:#0d0e0f;
+    display:flex;align-items:center;overflow:hidden;
+  }
+  .filmstrip.top{top:0;}
+  .filmstrip.bottom{bottom:0;}
+  .filmstrip-track{display:flex;gap:14px;animation:slide 18s linear infinite;}
+  .filmstrip.bottom .filmstrip-track{animation-direction:reverse;}
+  .filmstrip-track div{width:16px;height:11px;background:var(--ink);border-radius:2px;flex-shrink:0;}
+  @keyframes slide{from{transform:translateX(0);}to{transform:translateX(-320px);}}
+  @media (prefers-reduced-motion: reduce){.filmstrip-track{animation:none;}}
+
+  .hero-inner{position:relative;z-index:2;}
+  .kicker{color:var(--gold);font-size:14px;font-weight:600;margin-bottom:18px;}
+  .hero h1{
+    font-size:clamp(56px,10vw,140px);
+    text-transform:uppercase;
+  }
+  .hero h1 .outline{
+    -webkit-text-stroke:1.5px var(--paper);color:transparent;
+  }
+  .hero-sub{
+    max-width:520px;font-size:18px;color:rgba(241,236,225,0.75);margin-top:26px;
+  }
+  .hero-actions{display:flex;gap:16px;margin-top:44px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--gold);color:var(--ink);padding:15px 30px;font-weight:700;
+    border-radius:2px;font-size:14px;transition:transform .2s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{
+    border:1px solid var(--line);padding:15px 30px;font-weight:600;font-size:14px;
+    border-radius:2px;transition:border-color .2s;
+  }
+  .btn-ghost:hover{border-color:var(--paper);}
+
+  .stats-row{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:88px;
+    border-top:1px solid var(--line);padding-top:36px;
+  }
+  .stats-row .num{font-family:'Bebas Neue';font-size:44px;color:var(--gold);}
+  .stats-row .lbl{font-size:13px;color:rgba(241,236,225,0.6);}
+  @media(max-width:768px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+
+  /* WORK */
+  .work{background:var(--paper);color:var(--ink);}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    margin-bottom:56px;gap:24px;flex-wrap:wrap;
+  }
+  .section-head h2{font-size:clamp(38px,6vw,64px);text-transform:uppercase;}
+  .section-head p{max-width:360px;color:rgba(22,24,26,0.65);font-size:15px;}
+
+  .work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .work-card{
+    background:var(--ink);border-radius:6px;padding:0;position:relative;overflow:hidden;aspect-ratio:16/9;
+    cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.15);
+  }
+  .work-card .thumb{
+    width:100%;height:100%;
+    background:linear-gradient(135deg,var(--teal),var(--ink));
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .5s ease;position:relative;
+  }
+  .work-card:hover .thumb{transform:scale(1.03);}
+  .thumb img.yt-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85;}
+  .thumb .play{
+    width:56px;height:56px;border-radius:50%;background:rgba(22,24,26,0.55);border:1.5px solid rgba(241,236,225,0.8);
+    display:flex;align-items:center;justify-content:center;position:relative;z-index:2;
+  }
+  .thumb .play::after{
+    content:'';width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;
+    border-left:13px solid var(--paper);margin-left:4px;
+  }
+  .work-meta{
+    position:absolute;left:0;right:0;bottom:0;padding:16px 18px;
+    background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color:var(--paper);z-index:2;pointer-events:none;
+  }
+  .work-meta .tag{font-size:11.5px;color:var(--gold);font-weight:600;}
+  .work-meta h3{font-family:'Inter';font-weight:700;font-size:15.5px;margin-top:3px;}
+  .work-card iframe{width:100%;height:100%;border:0;}
+  @media(max-width:900px){.work-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:640px){.work-grid{grid-template-columns:1fr;}}
+
+  /* PROCESS */
+  .process{background:var(--ink);}
+  .process-list{border-top:1px solid var(--line);}
+  .process-item{
+    display:grid;grid-template-columns:70px 1fr 1fr;gap:24px;
+    padding:32px 0;border-bottom:1px solid var(--line);align-items:baseline;
+  }
+  .process-item .idx{font-family:'Bebas Neue';font-size:22px;color:var(--gold);}
+  .process-item h3{font-family:'Inter';font-weight:600;font-size:20px;text-transform:none;}
+  .process-item p{color:rgba(241,236,225,0.65);font-size:14.5px;max-width:420px;}
+  @media(max-width:768px){.process-item{grid-template-columns:40px 1fr;}.process-item p{grid-column:2;}}
+
+  /* TESTIMONIALS */
+  .testimonials{background:var(--teal);}
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  .testi-card{
+    background:rgba(241,236,225,0.06);border:1px solid rgba(241,236,225,0.14);
+    padding:28px;border-radius:3px;
+  }
+  .testi-card p{font-size:15px;color:rgba(241,236,225,0.9);margin-bottom:20px;}
+  .testi-who{font-size:13.5px;font-weight:600;color:var(--gold);}
+  @media(max-width:900px){.testi-grid{grid-template-columns:1fr;}}
+
+  /* CONTACT */
+  .contact{text-align:left;}
+  .contact h2{font-size:clamp(40px,9vw,110px);text-transform:uppercase;margin-bottom:26px;}
+  .contact-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px;}
+  .contact-links{display:flex;flex-direction:column;gap:10px;font-size:16px;}
+  .contact-links a{opacity:0.75;transition:opacity .2s;border-bottom:1px solid transparent;}
+  .contact-links a:hover{opacity:1;border-color:var(--gold);}
+
+  footer{
+    border-top:1px solid var(--line);padding:26px 0;
+    display:flex;justify-content:space-between;font-size:13px;color:rgba(241,236,225,0.5);
+    flex-wrap:wrap;gap:10px;
+  }
+  .wrap.footer-wrap{display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:10px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">BK<span>PORTFOLIO</span></div>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#process">Process</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Hire me</a>
+</nav>
+
+<section class="hero">
+  <div class="filmstrip top"><div class="filmstrip-track" id="track1"></div></div>
+  <div class="filmstrip bottom"><div class="filmstrip-track" id="track2"></div></div>
+
+  <div class="wrap hero-inner">
+    <div class="kicker">VIDEO EDITOR · COLORIST · MOTION</div>
+    <h1>CUTS THAT<br><span class="outline">HOLD</span> ATTENTION</h1>
+    <p class="hero-sub">BK Portfolio — I edit reels, YouTube videos and brand films that keep people watching till the last frame — sharp pacing, clean sound design, grading that feels intentional.</p>
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary">See the work</a>
+      <a href="#contact" class="btn-ghost">Start a project</a>
+    </div>
+
+    <div class="stats-row">
+      <div><div class="num">150+</div><div class="lbl">Projects edited</div></div>
+      <div><div class="num">6M+</div><div class="lbl">Views generated</div></div>
+      <div><div class="num">4</div><div class="lbl">Years editing</div></div>
+      <div><div class="num">25</div><div class="lbl">Brands worked with</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Selected Work</h2>
+      <p>Click any tile to play. Replace the video IDs in the script at the bottom with your own YouTube links.</p>
+    </div>
+    <div class="work-grid" id="workGrid"></div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How I Work</h2>
+      <p>Four steps, every project, no surprises.</p>
+    </div>
+    <div class="process-list">
+      <div class="process-item"><div class="idx">01</div><h3>Brief & footage review</h3><p>You send raw footage and references, I map out pacing and structure before touching the timeline.</p></div>
+      <div class="process-item"><div class="idx">02</div><h3>Rough cut</h3><p>Story and pacing locked first — no color or sound polish yet, so we agree on structure early.</p></div>
+      <div class="process-item"><div class="idx">03</div><h3>Grade & sound design</h3><p>Color grading, sound effects, music sync and motion graphics layered in.</p></div>
+      <div class="process-item"><div class="idx">04</div><h3>Delivery</h3><p>Export in every format you need — 9:16, 16:9, 1:1 — with two rounds of revisions included.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="testimonials">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 style="color:var(--paper)">Clients Say</h2>
+      <p style="color:rgba(241,236,225,0.7)">Swap these with real quotes from your clients.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card"><p>"Turnaround was fast and the pacing made our reel feel three times more premium than what we had before."</p><div class="testi-who">— Priya, D2C Founder</div></div>
+      <div class="testi-card"><p>"Understood the brief in one call. Sound design alone lifted our retention noticeably."</p><div class="testi-who">— Karthik, YouTuber</div></div>
+      <div class="testi-card"><p>"Reliable, communicates clearly, and never misses a deadline. Our go-to editor now."</p><div class="testi-who">— Studio Nine, Agency</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Let's cut<br>something great.</h2>
+    <div class="contact-row">
+      <p style="max-width:380px;color:rgba(241,236,225,0.7);font-size:16px;">Send your footage or just your idea. I'll reply within a day with a quote and timeline.</p>
+      <div class="contact-links">
+        <a href="mailto:bharath61202@gmail.com">bharath61202@gmail.com</a>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+        <a href="https://wa.me/910000000000" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-wrap">
+    <span>© 2026 BKportfolio</span>
+    <span>Built for reels, ads & films</span>
+  </div>
+</footer>
+
+<script>
+  // single deliberate motion: filmstrip perforations
+  function fillTrack(id,count){
+    const t=document.getElementById(id);
+    for(let i=0;i<count;i++){const d=document.createElement('div');t.appendChild(d);}
+  }
+  fillTrack('track1',40);
+  fillTrack('track2',40);
+
+  // ===================================================================
+  // PROJECTS — edit this list. Just replace "id" with your own YouTube
+  // video ID (the part after watch?v= in the YouTube URL), and update
+  // tag / title. Add or remove entries freely — the grid adjusts itself.
+  // ===================================================================
+  const projects = [
+    { id: "dQw4w9WgXcQ", tag: "REEL · INSTAGRAM", title: "Coffee Brand — Launch Reel" },
+    { id: "aqz-KE-bpKQ", tag: "YOUTUBE · VLOG",    title: "Travel Vlog — Ladakh Diaries" },
+    { id: "L_jWHffIx5E", tag: "AD FILM",           title: "Fashion Label — Festive Campaign" },
+    { id: "eogpIG53Cis", tag: "SHORT FILM",        title: "\"Silence\" — Narrative Cut" },
+    { id: "9bZkp7q19f0", tag: "MUSIC VIDEO",       title: "Indie Artist — Music Video Edit" },
+    { id: "60ItHLz5WEA", tag: "REEL · INSTAGRAM",  title: "Fitness Brand — Transformation Reel" },
+    { id: "YQHsXMglC9A", tag: "YOUTUBE · LONG-FORM", title: "Documentary — Behind the Craft" },
+    { id: "kXYiU_JCYtU", tag: "AD FILM",           title: "Tech Startup — Product Launch" },
+    { id: "fJ9rUzIMcZQ", tag: "REEL · INSTAGRAM",  title: "Restaurant — Menu Showcase" }
+  ];
+
+  const grid = document.getElementById('workGrid');
+  projects.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'work-card';
+    card.innerHTML = `
+      <div class="thumb">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/${p.id}/hqdefault.jpg" alt="${p.title}">
+        <div class="play"></div>
+      </div>
+      <div class="work-meta">
+        <div class="tag">${p.tag}</div>
+        <h3>${p.title}</h3>
+      </div>`;
+    card.addEventListener('click', function onPlay(){
+      card.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${p.id}?autoplay=1" title="${p.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      card.removeEventListener('click', onPlay);
+    }, { once:true });
+    grid.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
